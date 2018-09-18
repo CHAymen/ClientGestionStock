@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ProduitService} from './produit.service';
 import {Produit} from '../shared/produit';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
 @Component({
   selector: 'app-produit',
   templateUrl: './produit.component.html',
@@ -12,14 +13,15 @@ produits: Produit[];
 produitForm: FormGroup;
 operation: string='add';
 selectedProduit: Produit;
-  constructor(private produitService:ProduitService,private fb: FormBuilder) {
+  constructor(private produitService:ProduitService,private fb: FormBuilder, private route: ActivatedRoute) {
     this.createForm();
    }
 
   ngOnInit() { 
-    // this.produits = this.produitService.getProduits();
+    
     this.initProduit();
-    this.loadProduits();
+    // this.loadProduits(); changer par resolve pour charger avec navigation
+    this.produits = this.route.snapshot.data.produits;
   }
   addProduit(){
     const p = this.produitForm.value;
