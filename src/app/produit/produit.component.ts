@@ -42,7 +42,7 @@ selectedProduit: Produit;
     );
   }
   deleteProduit(){
-    this.produitService.deleteProduit(this.selectedProduit.ref).subscribe(
+    this.produitService.deleteProduit(this.selectedProduit.id).subscribe(
       res =>{
         this.initProduit();
         this.loadProduits();
@@ -66,6 +66,7 @@ selectedProduit: Produit;
   }
   initProduit(){
     this.selectedProduit = new Produit();
+    this.operation='add';
     this.createForm();
   }
 
