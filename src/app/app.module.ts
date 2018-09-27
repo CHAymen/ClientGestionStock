@@ -16,7 +16,8 @@ import { HomeComponent } from './home/home.component';
 import { XhrInterceptor } from './xhr.interceptor';
 import{CookieService} from 'ngx-cookie-service';
 import { UserComponent } from './user/user.component';
-
+import {StoreModule} from '@ngrx/store';
+import { PrincipalReducer } from './shared/principal.reducer';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { UserComponent } from './user/user.component';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot({principal: PrincipalReducer})
   ],
   providers: [ProduitService,
   {provide: HTTP_INTERCEPTORS,useClass: XhrInterceptor, multi:true},
