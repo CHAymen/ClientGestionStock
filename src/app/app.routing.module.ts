@@ -5,6 +5,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import{ProduitResolver} from './produit/produit.resolver';
 import {LoginComponent} from'./login/login.component';
 import {HomeComponent} from'./home/home.component';
+import { UserComponent } from './user/user.component';
 export const appRoutes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'home', 
@@ -20,6 +21,7 @@ export const appRoutes: Routes = [
             outlet:'contentOutlet'
         },
         {path: 'dashboard', component: DashboardComponent, outlet:'contentOutlet'},
+        {path: 'utilisateur', component: UserComponent, outlet:'contentOutlet'},
      ]
     },
     
