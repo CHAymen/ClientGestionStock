@@ -1,10 +1,10 @@
 import { Action } from "@ngrx/store";
 import { Principal } from "./principal.model";
 
-export const SAVE_USER= 'SAVE_USER';
+export const SAVE_PRINCIPAL= 'SAVE_PRINCIPAL';
 export class SavePrincipalAction implements Action{
-    readonly type = SAVE_USER;
-    constructor(public playload: Principal){
+    readonly type = SAVE_PRINCIPAL;
+    constructor(public payload: Principal){
         
     }
 

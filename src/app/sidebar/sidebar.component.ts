@@ -15,18 +15,19 @@ export class SidebarComponent implements OnInit {
   constructor(private store:Store<PrincipalState>) { }
 
   ngOnInit() {
-
-    this.store.select('principal').subscribe(principal=>{
-      console.log(principal);
-      this.principal=principal;
- 
+    
+    this.store.select('principal').subscribe(principal => {
+      this.principal = principal;
     });
+    
   }
 
   hasRoleUser(){
+    
     let hasRole:boolean=false;
-  
-    this.principal.authorities.array.forEach(item => {
+    console.log(this.principal.authorities);
+    this.principal.authorities.forEach(item => {
+      
       if(item.authority==='ROLE_USER'){
         hasRole = true;
       }
@@ -36,7 +37,7 @@ export class SidebarComponent implements OnInit {
 
   hasRoleAdmin(){
     let hasRole:boolean=false;
-    this.principal.authorities.array.forEach(item => {
+    this.principal.authorities.forEach(item => {
       if(item.authority==="ROLE_ADMIN"){
         hasRole = true;
       }

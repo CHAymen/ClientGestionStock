@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ProduitService} from './produit.service';
-import {Produit} from '../shared/produit';
+import {Produit} from '../shared/produit.model';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
+import { DataModel } from '../shared/data.model';
 @Component({
   selector: 'app-produit',
   templateUrl: './produit.component.html',
@@ -10,64 +11,33 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class ProduitComponent implements OnInit {
 produits: Produit[];
+produit: Produit=new Produit();
 produitForm: FormGroup;
-operation: string='add';
-selectedProduit: Produit;
+produitsModel: DataModel[];
+
   constructor(private produitService:ProduitService,private fb: FormBuilder, private route: ActivatedRoute) {
-    this.createForm();
+    
    }
 
   ngOnInit() { 
     
-    this.initProduit();
+   
     // this.loadProduits(); changer par resolve pour charger avec navigation
     this.produits = this.route.snapshot.data.produits;
-  }
-  addProduit(){
-    const p = this.produitForm.value;
-    this.produitService.addProduit(p).subscribe(
-      res =>{
-        this.initProduit();
-        this.loadProduits();
-      }
-    );
-
-  }
-  updateProduit(){
-    this.produitService.updateProduit(this.selectedProduit).subscribe(
-      res =>{
-        this.initProduit();
-        this.loadProduits();
-      }
-    );
-  }
-  deleteProduit(){
-    this.produitService.deleteProduit(this.selectedProduit.id).subscribe(
-      res =>{
-        this.initProduit();
-        this.loadProduits();
-      }
-    );
-  }
-
-  loadProduits(){
-    this.produitService.getProduits().subscribe(
-      data =>{this.produits = data},
-      error =>{console.log('an error was occured.')},
-      ()=> {console.log('loading produits was done')}
-    )
-  }
-  createForm(){
     this.produitForm= this.fb.group ({
-      ref: ['', Validators.required],
-      quantite:'',
-      prixUnitaire: ''
-    });
-  }
-  initProduit(){
-    this.selectedProduit = new Produit();
-    this.operation='add';
-    this.createForm();
-  }
+            ref: ['', Validators.required],
+            quantite:'',
+            prixUnitaire: ''
+          });
+
+          this.produitsModel=[
+            new DataModel('id','ID','number',true,[]),
+            new DataModel('ref','Réference','string',false,[]),
+            new DataModel('quantite','Quantité','number',false,[]),
+            new DataModel('prixUnitaire','Prix Unitaire','number',false,[])
+          ]
 
 }
+
+
+ }

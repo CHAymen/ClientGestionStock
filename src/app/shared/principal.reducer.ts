@@ -1,13 +1,12 @@
-import { SAVE_USER ,SavePrincipalAction} from "./save.principal.action";
+import { SAVE_PRINCIPAL ,SavePrincipalAction} from "./save.principal.action";
 import { Principal } from "./principal.model";
 
-export function PrincipalReducer(state: Principal, action: SavePrincipalAction){
+export function principalReducer(state: Principal, action: SavePrincipalAction){
+    console.log(action.type)
     switch(action.type){
-       case  SAVE_USER: 
-       return Object.assign({},state,action.playload);
+       case  SAVE_PRINCIPAL: 
+       return Object.assign({},state,action.payload);
       default:
       return state;
-
-
     }
 }
