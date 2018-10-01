@@ -1,7 +1,8 @@
 export class User{
     constructor( id?: number,
         username?: string,
-        enable?:boolean){}
+        enable?:boolean,
+        roles?:number){}
        
     
 }

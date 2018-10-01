@@ -22,6 +22,8 @@ export class CrudComponent implements OnInit {
   initForm: FormGroup;
   @Input()
   dataModelList : DataModel[];
+  @Input()
+  dataRoleList : any;
   crudForm: FormGroup;
   operation: string='add';
   selectedItem: any;
@@ -30,8 +32,7 @@ export class CrudComponent implements OnInit {
      }
   
     ngOnInit() {  
-      this.init();
-     
+      this.init();     
     }
     add(){
       const p = this.crudForm.value;
@@ -62,7 +63,8 @@ export class CrudComponent implements OnInit {
   
     loadData(){
       this.service.getAll().subscribe(
-        data =>{this.data = data},
+        data =>{this.data = data
+        },
         error =>{console.log('an error was occured.')},
         ()=> {console.log('loading data was done')}
       )

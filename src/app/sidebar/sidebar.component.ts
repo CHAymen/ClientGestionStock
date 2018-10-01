@@ -25,7 +25,7 @@ export class SidebarComponent implements OnInit {
   hasRoleUser(){
     
     let hasRole:boolean=false;
-    console.log(this.principal.authorities);
+ 
     this.principal.authorities.forEach(item => {
       
       if(item.authority==='ROLE_USER'){
