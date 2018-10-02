@@ -17,16 +17,15 @@ private roles:any=[];
         return this.http.get(API_URLS.USER_CRUD_URL);
     }
     
-    add(user:User):Observable<any>{
-        console.log(user);
-        this.ajoutRoles(user.roles,user);
-        console.log(user);
+    add(user):Observable<any>{
+      
+       this.ajoutRoles(user.roles.id,user);
+
          return this.http.post(API_URLS.USER_CRUD_URL, user);
         
     }
-    update(user:User):Observable<any>{
-       console.log(user.roles);
-        this.ajoutRoles(user.roles,user);
+    update(user):Observable<any>{
+        this.ajoutRoles(user.roles.id,user);
         return this.http.put(API_URLS.USER_CRUD_URL, user);
     }
     delete(id:number):Observable<any>{
@@ -39,7 +38,6 @@ private roles:any=[];
     }
 
     ajoutRoles(id,user){
-console.log((id==2)+id+(id===2));
         user.roles=[];
         user.roles.push({"name":"ROLE_USER","id":1});
         if(id==2){

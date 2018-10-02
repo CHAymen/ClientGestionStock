@@ -30,7 +30,7 @@ export class UserComponent implements OnInit {
       username: ['', Validators.required],
             password:'',
             enable: '',
-            roles:[this.roles.name]
+            roles:this.fb.array([])
           
           });
 

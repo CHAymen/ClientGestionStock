@@ -45,6 +45,7 @@ export class CrudComponent implements OnInit {
   
     }
     update(){
+      
       this.service.update(this.selectedItem).subscribe(
         res =>{
           this.init();
@@ -69,14 +70,19 @@ export class CrudComponent implements OnInit {
         ()=> {console.log('loading data was done')}
       )
     }
+
     createForm(){
       this.initForm? this.crudForm=this.initForm : this.crudForm= this.fb.group ({ });
-    
     }
     init(){
       this.selectedItem = this.initItem;
       this.createForm();
     }
-  
+    selectChange( $event) {
+      //In my case $event come with a id value
+      const p = this.crudForm.value;
+      p.roles.push( this.dataRoleList[$event]);
+      console.log(p);
+    }
   }
   

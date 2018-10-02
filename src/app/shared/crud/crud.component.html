@@ -2,18 +2,18 @@
   <h3>
     {{title}}
   </h3>
-<div class="container">
+
 
 <div class="row">
   
-  <div class="col-lg-7">
+  <div >
     <!-- <table class="table table-hover" *ngIf="produits.length!=0"> -->
         <table class="table table-hover">
       <thead>
         
         <tr>
           <th *ngFor="let dataModel of dataModelList">{{dataModel.columnReference}}</th>
-          <th><button class="btn btn-outline-primary"(click)="operation ='add'; init()">ADD</button></th>
+          <th><button class="btn btn-outline-primary"(click)="operation ='add'; init()" data-toggle="modal" data-target="#crud">ADD</button></th>
           <th></th>
         </tr>
        
@@ -22,25 +22,87 @@
         
         <tr *ngFor="let item of data">
           <td *ngFor="let dataModel of dataModelList">
-            <span *ngIf="dataModel.dataType=='select';else affiche">
-                <span *ngFor="let dd of item[dataModel.columnName]">
+            <div *ngIf="dataModel.dataType=='select';else affiche">
+                <div *ngFor="let dd of item[dataModel.columnName]">
                     {{dd.name}}
-                </span>
-            </span>
+                </div>
+            </div>
             <ng-template #affiche>
                 {{item[dataModel.columnName]}}
             </ng-template>
               
           </td>
          
-          <td><button class="btn btn-outline-primary"(click)="operation ='edit'; selectedItem = item;">Edit</button></td>
-          <td><button class="btn btn-outline-danger" (click)="operation ='remove';selectedItem = item;">Remove</button></td>
+          <td><button class="btn btn-outline-primary"(click)="operation ='edit'; selectedItem = item;" data-toggle="modal" data-target="#crud">Edit</button></td>
+          <td><button class="btn btn-outline-danger" (click)="operation ='remove';selectedItem = item;" data-toggle="modal" data-target="#crud">Remove</button></td>
         </tr>
        
       </tbody>
     </table>
   </div>
-  <div class="col-lg-5">
+
+  <div class="modal fade" id="crud" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                
+                    {{operation =='add' ? 'Ajouter ' : 
+                    operation =='edit' ? 'Editer ' :
+                    operation == 'remove' ? 'Supprimer ' : ''}}
+                 
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                
+            </div>
+            <div class="modal-body">
+              <div *ngIf="operation == 'add' || operation == 'edit' ">
+      
+                <form [formGroup]="crudForm">
+                  <div *ngFor="let dataModel of dataModelList" [ngSwitch]="dataModel.dataType">
+                      <div class="form-group" *ngIf="!dataModel.readonly">
+                          <label>{{dataModel.columnReference}}</label>
+                         
+                          <input *ngSwitchCase="'string'" type="text" class="form-control" 
+                          formControlName="{{dataModel.columnName}}" [(ngModel)]="selectedItem[dataModel.columnName]"/>
+                         
+                          <input *ngSwitchCase="'number'" type="number" class="form-control" 
+                          formControlName="{{dataModel.columnName}}" [(ngModel)]="selectedItem[dataModel.columnName]"/>
+                         
+                          <input *ngSwitchCase="'password'" type="password" class="form-control" 
+                          formControlName="{{dataModel.columnName}}" [(ngModel)]="selectedItem[dataModel.columnName]"/>
+                         
+                          <select *ngSwitchCase="'select'" class="form-control" formControlName="{{dataModel.columnName}}" (ngModelChange)="selectChange($event)"  [(ngModel)]="selectedItem[dataModel.columnName]">
+                              <option  *ngFor="let role of dataRoleList" [ngValue]=role >{{role.name}}</option>
+                          </select>
+                        </div>
+                        <!-- <div class="alert alert-danger" *ngIf="produitForm.controls['ref'].invalid && (produitForm.controls['ref'].touched || produitForm.controls['ref'].dirty)">
+                          Réference est oblogatoire
+                        </div> -->
+                  </div>
+                    
+                     
+                  <input type="button" class="btn btn-success" [disabled]=" crudForm.invalid" value="{{operation =='add' ? 'Ajouter' : 
+                  operation =='edit' ? 'Modifier' :''}}" (click)="  operation =='add' ? add() :  update()"/>
+                </form>
+               
+              </div>
+              <div *ngIf="operation == 'remove'">
+                <p class="card-title">Référence: {{selectedItem.id}}</p>
+                <p>Voulez-vous supprimer cet élément?</p>
+                <input type="button" class="btn btn-success" [disabled]="!selectedItem.id" (click)="delete()" value="Confirmer">
+              </div>
+                <div class="modal-footer">
+
+                    footer
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <!-- <div class="modal fade" id="crud" role="dialog">
     <div class="card">
       <div class="card-header bg-info text-white">
         {{operation =='add' ? 'Ajouter ' : 
@@ -65,12 +127,12 @@
                     formControlName="{{dataModel.columnName}}" [(ngModel)]="selectedItem[dataModel.columnName]"/>
                    
                     <select *ngSwitchCase="'select'" class="form-control" formControlName="{{dataModel.columnName}}" [(ngModel)]="selectedItem[dataModel.columnName]">
-                        <option  *ngFor="let role of dataRoleList" [value]=role.id>{{role.name}}</option>
+                        <option  *ngFor="let role of dataRoleList" [ngValue]=role>{{role.name}}</option>
                     </select>
                   </div>
-                  <!-- <div class="alert alert-danger" *ngIf="produitForm.controls['ref'].invalid && (produitForm.controls['ref'].touched || produitForm.controls['ref'].dirty)">
+                   <div class="alert alert-danger" *ngIf="produitForm.controls['ref'].invalid && (produitForm.controls['ref'].touched || produitForm.controls['ref'].dirty)">
                     Réference est oblogatoire
-                  </div> -->
+                  </div>
             </div>
               
                
@@ -90,9 +152,9 @@
         footer
       </div>
     </div>
-  </div>
+  </div> -->
 </div>
-</div>
+
 </ng-container>
 <ng-template #loading>
   loading ...
